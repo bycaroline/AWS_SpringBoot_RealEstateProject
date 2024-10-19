@@ -8,13 +8,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CompanyServiceTest {
     @Mock
@@ -23,15 +25,15 @@ class CompanyServiceTest {
     @InjectMocks
     private CompanyService companyService;
 
-    private House house;
     private Company company;
 
     @BeforeEach
     public void setup() {
+        MockitoAnnotations.initMocks(this);  // Initierar mock-objekten
+
         company = new Company();
         company.setId(1L);
         company.setName("Example Company");
-
     }
 
     @Test
@@ -71,18 +73,27 @@ class CompanyServiceTest {
     }
 
     @Test
-    void patchCompany() {
+    void patchCompany_updatesName_whenDifferent() {
         // Arrange
-        when(companyRepository.findById(1L)).thenReturn(java.util.Optional.of(company));
-        Company newCompany = new Company();
-        newCompany.setId(1L);
-        newCompany.setName("New Company");
+        Company existingCompany = new Company();
+        existingCompany.setId(1L);
+        existingCompany.setName("Old Company");
+
+        Company updatedCompany = new Company();
+        updatedCompany.setId(1L);
+        updatedCompany.setName("New Company");
+
+        when(companyRepository.findById(1L)).thenReturn(Optional.of(existingCompany));
+        when(companyRepository.save(any(Company.class))).thenReturn(existingCompany);
 
         // Act
-        Company result = companyService.patchCompany(newCompany, 1L);
+        Company result = companyService.patchCompany(updatedCompany, 1L);
 
         // Assert
-        assertEquals(newCompany.getName(), result.getName());
+        assertNotNull(result);
+        assertEquals("New Company", result.getName()); // Se till att namnet uppdaterades
+        verify(companyRepository).findById(1L); // Verifiera att findById kallades
+        verify(companyRepository).save(existingCompany); // Verifiera att save kallades
     }
 
     @Test

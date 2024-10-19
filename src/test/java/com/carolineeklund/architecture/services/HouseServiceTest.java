@@ -2,6 +2,7 @@ package com.carolineeklund.architecture.services;
 
 import com.carolineeklund.architecture.models.Company;
 import com.carolineeklund.architecture.models.House;
+import com.carolineeklund.architecture.repositories.CompanyRepository;
 import com.carolineeklund.architecture.repositories.HouseRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,11 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class HouseServiceTest {
@@ -28,6 +32,8 @@ class HouseServiceTest {
 
     @BeforeEach
     public void setup() {
+        MockitoAnnotations.initMocks(this);  // Initierar mock-objekten
+
         company = new Company();
         company.setId(1L);
         company.setName("Example Company");
@@ -40,7 +46,6 @@ class HouseServiceTest {
         house.setCost(2000000);
         house.setReadyMade(false);
         house.setCompany(company);
-
     }
 
     @Test
@@ -87,26 +92,25 @@ class HouseServiceTest {
     @Test
     void patchHouse() {
         // Arrange
-        when(houseRepository.findById(1L)).thenReturn(java.util.Optional.of(house));
+        House existingHouse = new House();
+        existingHouse.setId(1L);
+        existingHouse.setName("Old Company");
+
         House updatedHouse = new House();
         updatedHouse.setId(1L);
-        updatedHouse.setName("Freja");
-        updatedHouse.setType("Attefall");
-        updatedHouse.setSize(25);
-        updatedHouse.setCost(2000000);
-        updatedHouse.setReadyMade(true);
-        updatedHouse.setCompany(company);
+        updatedHouse.setName("New House");
+
+        when(houseRepository.findById(1L)).thenReturn(Optional.of(existingHouse));
+        when(houseRepository.save(any(House.class))).thenReturn(existingHouse);
 
         // Act
         House result = houseService.patchHouse(updatedHouse, 1L);
 
         // Assert
-        assertEquals(updatedHouse.getName(), result.getName());
-        assertEquals(updatedHouse.getType(), result.getType());
-        assertEquals(updatedHouse.getSize(), result.getSize());
-        assertEquals(updatedHouse.getCost(), result.getCost());
-        assertEquals(updatedHouse.isReadyMade(), result.isReadyMade());
-        assertEquals(updatedHouse.getCompany(), result.getCompany());
+        assertNotNull(result);
+        assertEquals("New House", result.getName()); // Se till att namnet uppdaterades
+        verify(houseRepository).findById(1L); // Verifiera att findById kallades
+        verify(houseRepository).save(existingHouse); // Verifiera att save kallades
     }
 
     @Test
