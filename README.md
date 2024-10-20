@@ -119,3 +119,6 @@ http://arch-env.eba-yt7en8uv.eu-north-1.elasticbeanstalk.com/house
 Eftersom jag arbetat en del med React förut valde jag att göra frontend i React. Jag skapade en React app som ska utföra CRUD på alla hus och byggföretag.
 Jag skapade även ett nytt repo för frontend på GitHub.
 Jag stötte på Cors problem och lade in Cors config i backend för att lösa det.
+```
+@CrossOrigin(origins = "*")
+```
