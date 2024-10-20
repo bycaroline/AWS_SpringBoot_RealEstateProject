@@ -23,7 +23,7 @@ public class HouseController {
         return ResponseEntity.ok(houses);
     }
 
-    @GetMapping("")
+    @GetMapping("/{id}")
     public ResponseEntity <Optional<House>> getOneHouse (@PathVariable Long id){
         Optional<House> house = houseService.getOneHouse(id);
         return ResponseEntity.ok(house);
