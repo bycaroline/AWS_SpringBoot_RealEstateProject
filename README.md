@@ -99,7 +99,7 @@ commands:
 - echo Build completed on date
 artifacts:
 files:
-- target/webservice-app.jar
+- '**/*'
 discard-paths: yes
 ```
 
@@ -108,4 +108,10 @@ Fick succeeded på CodeBuild.
 ## CodePipeline
 CodePipeline är en pipeline som kopplar ihop CodeBuild och GitHub. Den kan ses som den som överseer hela husbygget. 
 Genom detta skapas en CI/CD pipeline med automatisk bygge och deploy av applikationen.
-Väljer new service Role och Github connection version1. Använder mig av Giyhub webhooks för att upptäcka ändringar i mitt github repo. 
+Väljer new service Role och Github connection version1. Använder mig av Github webhooks för att upptäcka ändringar i mitt github repo. 
+
+När alla stegen blivit gröna och deploy gått igenom kollar jag att jag kan hämta GET requests i webbläsaren på hemsidan som fick från Elastic Beanstalk.
+Testar även att göra post requests via postman och det fungerar.
+```
+http://arch-env.eba-yt7en8uv.eu-north-1.elasticbeanstalk.com/house
+```

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = {"http://localhost:*", "http://127.0.0.1:*"})
 @RestController
 @RequestMapping("/company")
 @RequiredArgsConstructor //så att autowired house repo funkar
