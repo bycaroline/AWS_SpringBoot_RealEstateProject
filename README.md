@@ -122,3 +122,12 @@ Jag stötte på Cors problem och lade in Cors config i backend för att lösa de
 ```
 @CrossOrigin(origins = "*")
 ```
+I frontend har jag skapat CRUD på både hus och byggföretag.
+Jag har skapat en .env som jag har lagt i .gitignore för api-länken till AWS. 
+
+
+## Länkar och övrigt
+Dokument med bilder är skickade på classroom i inlämningsfliken.
+Inbjudan till repona har skickats till läraren.
+Backend: https://github.com/bycaroline/ArchitectureCloudIntegration
+Frontend: https://github.com/bycaroline/ArchitectureCloudIntegrationFronteEnd
