@@ -86,7 +86,7 @@ artifacts:
 
 4. **CodePipeline**: I used CodePipeline to link CodeBuild with GitHub, creating a CI/CD pipeline for automatic build and deployment. After the pipeline completed successfully, I tested the application by making GET and POST requests using Postman and verified the responses on the website.
 
-   Endpoint: `http://arch-env.eba-yt7en8uv.eu-north-1.elasticbeanstalk.com/house`
+   Endpoint:`http://arch-env.eba-yt7en8uv.eu-north-1.elasticbeanstalk.com/house`
 
 ### Frontend
 
